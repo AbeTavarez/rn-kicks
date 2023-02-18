@@ -3,6 +3,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Pressable, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { FontAwesome5 } from '@expo/vector-icons';
+// redux
+import { useSelector } from 'react-redux';
+import { selectNumberOfItems } from './store/cartSlice';
+
 // Screens
 import ProductScreen from './screens/ProductScreen';
 import ProductDetailsScreen from './screens/ProductDetailsScreen';
@@ -35,13 +39,14 @@ export default function Navigation() {
 
 function CartButton() {
   const navigation = useNavigation();
+  const numberOfItems = useSelector(selectNumberOfItems);
   return (
     <Pressable
       onPress={() => navigation.navigate('Cart')}
       style={{ flexDirection: 'row' }}
     >
       <FontAwesome5 name="shopping-cart" color="gray" size={18} />
-      <Text style={{ marginLeft: 5, fontWeight: '500' }}>1</Text>
+      <Text style={{ marginLeft: 5, fontWeight: '500' }}>{numberOfItems}</Text>
     </Pressable>
   );
 }

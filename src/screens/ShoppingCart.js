@@ -1,10 +1,18 @@
 import { FlatList, Text, View, StyleSheet, Pressable } from 'react-native';
 import CartListItem from '../components/CartListItem';
 import { useSelector } from 'react-redux';
+import {
+  selectDelivery,
+  selectDeliveryPrice,
+  selectNumberOfItems,
+  selectSubtotal,
+  selectTotal
+} from '../store/cartSlice';
 
 export default function ShoppingCart() {
   const cartItems = useSelector((state) => state.cart.items);
-  console.log(cartItems);
+  // console.log(cartItems);
+
   return (
     <>
       <FlatList
@@ -19,27 +27,32 @@ export default function ShoppingCart() {
   );
 }
 
-const ShoppingCartTotals = () => (
-  <View>
-    <View style={styles.totalsContainer}>
-      {/* SUBTOTAL  */}
-      <View style={styles.row}>
-        <Text style={styles.text}>Subtotal</Text>
-        <Text style={styles.text}>$789.00</Text>
-      </View>
-      {/* DELIVERY  */}
-      <View style={styles.row}>
-        <Text style={styles.text}>Delivery</Text>
-        <Text style={styles.text}>$789.00</Text>
-      </View>
-      {/* TOTAL  */}
-      <View style={styles.row}>
-        <Text style={styles.textBold}>Total</Text>
-        <Text style={styles.textBold}>$789.00</Text>
+const ShoppingCartTotals = () => {
+  const subtotal = useSelector(selectSubtotal);
+  const deliveryFee = useSelector(selectDeliveryPrice);
+  const total = useSelector(selectTotal);
+  return (
+    <View>
+      <View style={styles.totalsContainer}>
+        {/* SUBTOTAL  */}
+        <View style={styles.row}>
+          <Text style={styles.text}>Subtotal</Text>
+          <Text style={styles.text}>${subtotal}</Text>
+        </View>
+        {/* DELIVERY  */}
+        <View style={styles.row}>
+          <Text style={styles.text}>Delivery</Text>
+          <Text style={styles.text}>${deliveryFee}</Text>
+        </View>
+        {/* TOTAL  */}
+        <View style={styles.row}>
+          <Text style={styles.textBold}>Total</Text>
+          <Text style={styles.textBold}>${total}</Text>
+        </View>
       </View>
     </View>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   totalsContainer: {
